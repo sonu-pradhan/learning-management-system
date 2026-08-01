@@ -30,11 +30,11 @@ const Navbar = () => {
     const user = true;
     const role = "instructor";
     return (
-        <div className="h-18 dark:bg-[#0A0A0A] border-b dark:border-b-gray-800 border-b-gray-200 fixed top-0 left-0 right-0 duration-300 z-10">
+        <div className="h-18 bg-white dark:bg-[#0A0A0A] border-b dark:border-b-gray-800 border-b-gray-200 fixed top-0 left-0 right-0 duration-300 z-10">
             <div className="max-w-7xl mx-auto hidden md:flex justify-between items-center gap-10 h-full">
                 <div className="flex items-center gap-2">
                     <LibraryBig size={"25"} className="text-slate-800" />
-                    <h1 className="hidden md:block font-extrabold text-2xl text-slate-800">Learn <span className="text-indigo-600 dark:text-white">Infinity</span></h1>
+                    <h1 className="hidden md:block font-extrabold text-2xl text-slate-800">Learn <span className="bg-linear-to-r from-[#334d50] to-[#cbcaa5] text-white dark:text-white">Infinity</span></h1>
                 </div>
                 <div className="flex justify-center items-center gap-5 ">
                     {
@@ -69,7 +69,7 @@ const Navbar = () => {
             <div className="flex md:hidden items-center justify-between px-4 h-full">
                 <div className="flex items-center gap-2">
                     <LibraryBig size={"20"} className="text-slate-800" />
-                    <h1 className="font-extrabold text-xl text-slate-800">Learn <span className="text-indigo-600 dark:text-white">Infinity</span></h1>
+                    <h1 className="font-extrabold text-xl text-slate-800">Learn <span className="bg-linear-to-r from-[#334d50] to-[#cbcaa5] text-white dark:text-white">Infinity</span></h1>
                 </div>
                 <MobileNavbar />
             </div>
@@ -91,7 +91,7 @@ const MobileNavbar = () => {
                 {user ? (
                     <>
                         <SheetHeader className="flex flex-row mt-14 pr-6 items-center justify-between">
-                            <SheetTitle><h1 className="font-extrabold text-xl text-slate-800">Learn <span className="text-indigo-600 dark:text-white">Infinity</span></h1></SheetTitle>
+                            <SheetTitle><h1 className="font-extrabold text-xl text-slate-700">Learn <span className="bg-linear-to-r from-[#334d50] to-[#cbcaa5] bg-clip-text text-transparent dark:text-gray-700">Infinity</span></h1></SheetTitle>
                             <DarkMode />
                         </SheetHeader>
                         <nav className="flex flex-col space-y-4 px-4 pt-4">

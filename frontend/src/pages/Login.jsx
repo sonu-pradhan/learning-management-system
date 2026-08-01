@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/tabs"
 import { Loader2 } from "lucide-react"
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 
 const Login = () => {
@@ -58,6 +59,8 @@ const Login = () => {
         const action = type === "signup" ? registerUser : loginUser;
         await action(inputData);
     };
+
+    const navigate = useNavigate();
     
     useEffect(() => {
     if (registerIsSuccess && registerData) {
@@ -70,6 +73,7 @@ const Login = () => {
 
     if (loginIsSuccess && loginData) {
         toast.success(loginData?.message || "Login successful");
+        navigate("/")
     }
 
     if (loginError) {
@@ -86,16 +90,15 @@ const Login = () => {
 
 
     return (
-        <div className="flex mt-28 justify-center w-full">
+        <div className="flex mt-30 justify-center w-full">
             <Tabs defaultValue="account" className="w-100">
-                <TabsList className="grid w-full grid-cols-2">
+                <TabsList className="grid w-full grid-cols-2 bg-[#cbcaa5]">
                     <TabsTrigger value="signup">SignUp</TabsTrigger>
                     <TabsTrigger value="login">Login</TabsTrigger>
                 </TabsList>
                 <TabsContent value="signup">
                     <Card>
                         <CardHeader>
-                            <CardTitle>SignUp</CardTitle>
                             <CardDescription>
                                 Create your account and start learning.
                             </CardDescription>
@@ -105,7 +108,6 @@ const Login = () => {
                                 <Label htmlFor="name">Name</Label>
                                 <Input
                                     type="text"
-                                    placeholder="eg. Akash"
                                     required={true}
                                     name="name"
                                     value={signupInput.name}
@@ -131,7 +133,7 @@ const Login = () => {
                             </div>
                         </CardContent>
                         <CardFooter>
-                            <Button disabled={registerIsLoading} onClick={() => handleRegistration("signup")}>
+                            <Button className="bg-[#385356] mx-auto" disabled={registerIsLoading} onClick={() => handleRegistration("signup")}>
                                 {
                                     registerIsLoading ? (
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -144,7 +146,6 @@ const Login = () => {
                 <TabsContent value="login">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Login</CardTitle>
                             <CardDescription>
                                 Welcome back! Continue your learning journey.
                             </CardDescription>
@@ -170,7 +171,7 @@ const Login = () => {
                             </div>
                         </CardContent>
                         <CardFooter>
-                            <Button disabled={loginIsLoading} onClick={() => handleRegistration("login")}>
+                            <Button className="bg-[#385356] mx-auto" disabled={loginIsLoading} onClick={() => handleRegistration("login")}>
                                 {
                                     loginIsLoading ? (
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
