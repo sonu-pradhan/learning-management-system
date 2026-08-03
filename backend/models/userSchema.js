@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema({
     profilePhoto:{
         type:String,
         default:""
+    },
+    cloudinaryProfileId:{
+        type:String,
+        default:""
     }
 },{timestamps:true});
 

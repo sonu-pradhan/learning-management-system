@@ -24,13 +24,28 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLogoutUserMutation } from "@/api/authApi";
+import { toast } from "sonner";
 
 const Navbar = () => {
 
     const user = true;
     const role = "instructor";
+
+    const [logoutUser, { data, isSuccess }] = useLogoutUserMutation();
+    const navigate = useNavigate();
+    const logoutHandler = async () => {
+        await logoutUser();
+    };
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success(data?.message || "User log out.");
+            navigate("/login");
+        }
+    }, [isSuccess]);
     return (
         <div className="h-18 bg-white dark:bg-[#0A0A0A] border-b dark:border-b-gray-800 border-b-gray-200 fixed top-0 left-0 right-0 duration-300 z-10">
             <div className="max-w-7xl mx-auto hidden md:flex justify-between items-center gap-10 h-full">
@@ -59,7 +74,7 @@ const Navbar = () => {
                                     </DropdownMenuGroup>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuGroup>
-                                        <DropdownMenuItem variant="destructive">Logout<LogOut className="ml-8" /></DropdownMenuItem>
+                                        <DropdownMenuItem variant="destructive" onClick={logoutHandler}>Logout<LogOut className="ml-8" /></DropdownMenuItem>
                                     </DropdownMenuGroup>
                                 </DropdownMenuContent>
                             </DropdownMenu>) :
@@ -95,6 +110,19 @@ const MobileNavbar = () => {
     const role = "instructor";
     const [open, setOpen] = useState(false);
 
+    const [logoutUser, { data, isSuccess }] = useLogoutUserMutation();
+    const navigate = useNavigate();
+    const logoutHandler = async () => {
+        await logoutUser();
+    };
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success(data?.message || "User log out.");
+            navigate("/login");
+        }
+    }, [isSuccess]);
+
     return (
         <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger render={<Button size="lg" className="rounded-2xl  bg-white hover:bg-gray-200" variant="outline"><Menu /></Button>} />
@@ -113,7 +141,7 @@ const MobileNavbar = () => {
                             {role === "instructor" && (<span>Dashboard</span>)}
                         </nav>
                         <SheetFooter>
-                            <Button variant="destructive" type="submit">logout</Button>
+                            <Button variant="destructive" type="submit" onClick={logoutHandler}>logout</Button>
                             <SheetClose render={<Button variant="outline">Close</Button>} />
                         </SheetFooter>
                     </>

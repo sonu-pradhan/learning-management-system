@@ -1,6 +1,7 @@
 import { User } from "../models/userSchema.js"
 import bcryptjs from "bcryptjs"
 import jwt from "jsonwebtoken"
+import { deleteImageFromCloud, uploadMedia } from "../config/cloudinary.js";
 
 export const Register = async (req, res) => {
     try {
@@ -44,8 +45,8 @@ export const Register = async (req, res) => {
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({
-            success:false,
-            message:"Failed to register"
+            success: false,
+            message: "Failed to register"
         })
     }
 }
@@ -78,7 +79,7 @@ export const Login = async (req, res) => {
 
         res.cookie("token", token, {
             httpOnly: true,
-            sameSite:"strict",
+            sameSite: "strict",
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
@@ -91,8 +92,92 @@ export const Login = async (req, res) => {
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({
-            success:false,
-            message:"Failed to login"
+            success: false,
+            message: "Failed to login"
+        })
+    }
+}
+
+export const Logout = async (_, res) => {
+    try {
+        return res.status(200).cookie("token", "", { maxAge: 0 }).json({
+            message: "Logged out successfully.",
+            success: true
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Failed to logout"
+        })
+    }
+}
+
+export const getUserProfile = async (req, res) => {
+    try {
+        const userId = req.id;
+        const user = await User.findById(userId).select("-password")
+        if (!user) {
+            return res.status(404).json({
+                message: "Profile not found",
+                success: false
+            })
+        }
+        return res.status(200).json({
+            success: true,
+            user
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Failed to load user"
+        })
+    }
+}
+
+export const updateProfile = async (req, res) => {
+    try {
+        const userId = req.id;
+        const { name } = req.body;
+        const newProfilePhoto = req.file;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+                success: false
+            })
+        }
+
+        const updatedData = {
+            name
+        };
+
+        if (newProfilePhoto) {
+            if (user.cloudinaryProfileId) {
+                await deleteImageFromCloud(user.cloudinaryProfileId);
+            }
+
+            const cloudResponse = await uploadMedia(newProfilePhoto.path);
+
+            updatedData.profilePhoto = cloudResponse.secure_url;
+            updatedData.cloudinaryProfileId = cloudResponse.public_id;
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(userId, updatedData, { new: true });
+
+        return res.status(200).json({
+            success: true,
+            user: updatedUser,
+            message: "Profile updated successfully"
+        })
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Failed to update"
         })
     }
 }
