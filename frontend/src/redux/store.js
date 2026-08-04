@@ -7,3 +7,8 @@ export const store = configureStore({
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(authApi.middleware),
 });
+
+const persistApp = async () => {
+    await store.dispatch(authApi.endpoints.loadUser.initiate({},{forceRefetch:true}))
+}
+persistApp();

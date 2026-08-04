@@ -24,28 +24,34 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useLogoutUserMutation } from "@/api/authApi";
 import { toast } from "sonner";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
 
-    const user = true;
-    const role = "instructor";
+    const user = useSelector(store => store.auth.user);
+    const role = user?.role;
 
-    const [logoutUser, { data, isSuccess }] = useLogoutUserMutation();
+
+    const [logoutUser] = useLogoutUserMutation();
     const navigate = useNavigate();
     const logoutHandler = async () => {
-        await logoutUser();
+        try {
+            const response = await logoutUser().unwrap();
+
+            toast.success(response?.message || "User logged out.");
+
+            navigate("/login");
+
+        } catch (error) {
+            toast.error(error?.data?.message || "Logout failed");
+        }
     };
 
-    useEffect(() => {
-        if (isSuccess) {
-            toast.success(data?.message || "User log out.");
-            navigate("/login");
-        }
-    }, [isSuccess]);
+
     return (
         <div className="h-18 bg-white dark:bg-[#0A0A0A] border-b dark:border-b-gray-800 border-b-gray-200 fixed top-0 left-0 right-0 duration-300 z-10">
             <div className="max-w-7xl mx-auto hidden md:flex justify-between items-center gap-10 h-full">
@@ -62,7 +68,7 @@ const Navbar = () => {
                         user ?
                             (<DropdownMenu>
                                 <DropdownMenuTrigger render={<Button variant="ghost" size="icon" className="rounded-full"><Avatar size="lg">
-                                    <AvatarImage src="https://github.com/shadcn.png" alt="shadcn" />
+                                    <AvatarImage src={user?.profilePhoto || "https://github.com/shadcn.png"} alt="shadcn" />
                                     <AvatarFallback>LR</AvatarFallback>
                                 </Avatar></Button>} />
                                 <DropdownMenuContent>
@@ -79,8 +85,8 @@ const Navbar = () => {
                                 </DropdownMenuContent>
                             </DropdownMenu>) :
                             (<div className="flex items-center cursor-pointer gap-2">
-                                <Button variant="outline">Login</Button>
-                                <Button variant="outline">SignUp</Button>
+                                <Button variant="outline" onClick={() => navigate("/login")}>Login</Button>
+                                <Button variant="outline" onClick={() => navigate("/login")}>SignUp</Button>
                             </div>)
                     }<div className="pl-5">
                         <DarkMode />
@@ -106,22 +112,31 @@ export default Navbar
 
 const MobileNavbar = () => {
 
-    const user = true;
-    const role = "instructor";
+    const user = useSelector(store => store.auth.user);
+    const role = user?.role;
     const [open, setOpen] = useState(false);
 
-    const [logoutUser, { data, isSuccess }] = useLogoutUserMutation();
+    const [logoutUser] = useLogoutUserMutation();
     const navigate = useNavigate();
     const logoutHandler = async () => {
-        await logoutUser();
+        try {
+            const response = await logoutUser().unwrap();
+
+            toast.success(response?.message || "User logged out.");
+
+            navigate("/login");
+
+        } catch (error) {
+            toast.error(error?.data?.message || "Logout failed");
+        }
     };
 
+    const location = useLocation();
+
     useEffect(() => {
-        if (isSuccess) {
-            toast.success(data?.message || "User log out.");
-            navigate("/login");
-        }
-    }, [isSuccess]);
+        setOpen(false);
+    }, [location.pathname]);
+
 
     return (
         <Sheet open={open} onOpenChange={setOpen}>
@@ -151,7 +166,7 @@ const MobileNavbar = () => {
                         <p className="text-sm text-gray-400">
                             Access your courses, profile, and dashboard by signing into your account.
                         </p>
-                        <Button className="w-full bg-white border-gray-700 text-black hover:bg-gray-200">
+                        <Button className="w-full bg-white border-gray-700 text-black hover:bg-gray-200" onClick={() => navigate("/login")}>
                             Login
                         </Button>
                     </div>

@@ -2,6 +2,7 @@ import { User } from "../models/userSchema.js"
 import bcryptjs from "bcryptjs"
 import jwt from "jsonwebtoken"
 import { deleteImageFromCloud, uploadMedia } from "../config/cloudinary.js";
+import fs from "node:fs"
 
 export const Register = async (req, res) => {
     try {
@@ -160,6 +161,8 @@ export const updateProfile = async (req, res) => {
             }
 
             const cloudResponse = await uploadMedia(newProfilePhoto.path);
+
+            await fs.promises.unlink(newProfilePhoto.path);
 
             updatedData.profilePhoto = cloudResponse.secure_url;
             updatedData.cloudinaryProfileId = cloudResponse.public_id;
