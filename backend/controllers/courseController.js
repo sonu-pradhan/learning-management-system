@@ -12,7 +12,7 @@ export const createCourse = async (req,res) => {
         const course = await Course.create({
             courseTitle,
             category,
-            creator:req.id
+            author:req.id
         });
 
         return res.status(201).json({

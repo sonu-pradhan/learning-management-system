@@ -5,32 +5,55 @@ import RootLayout from "./RootLayout"
 import Courses from "./pages/Courses"
 import MyLearning from "./pages/student/MyLearning"
 import Profile from "./pages/student/Profile"
+import Sidebar from "./pages/admin/Sidebar"
+import CourseTable from "./pages/admin/CourseTable"
+import Dashboard from "./pages/admin/Dashboard"
+import AddCourse from "./pages/admin/AddCourse"
 
 
 const appRouter = createBrowserRouter([
   {
-    path:"/",
-    element:<RootLayout />,
-    children:[
+    path: "/",
+    element: <RootLayout />,
+    children: [
       {
-        index:true,
+        index: true,
         element:
-        <>
-         <HeroSection />
-         <Courses />
-        </>
+          <>
+            <HeroSection />
+            <Courses />
+          </>
       },
       {
-        path:"login",
-        element:<Login />
+        path: "login",
+        element: <Login />
       },
       {
-        path:"my-learning",
-        element:<MyLearning />
+        path: "my-learning",
+        element: <MyLearning />
       },
       {
-        path:"profile",
-        element:<Profile />
+        path: "profile",
+        element: <Profile />
+      },
+
+      {
+        path: "admin",
+        element: <Sidebar />,
+        children: [
+          {
+            index: true ,
+            element: <Dashboard />
+          },
+          {
+            path: "courses",
+            element: <CourseTable />
+          },
+          {
+            path: "courses/add",
+            element: <AddCourse />
+          }
+        ]
       }
     ]
   }
