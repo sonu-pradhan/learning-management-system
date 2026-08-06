@@ -10,9 +10,16 @@ import {
 } from "@/components/ui/table"
 import { Button } from '@/components/ui/button'
 import { useNavigate } from 'react-router-dom'
+import { useGetCoursesByAuthorQuery } from '@/api/courseApi'
+import { Badge } from '@/components/ui/badge'
+import { Edit } from 'lucide-react'
 
 const CourseTable = () => {
+
+    const { data, isLoading } = useGetCoursesByAuthorQuery();
     const navigate = useNavigate();
+
+    console.log(data)
 
     return (
         <div className="mt-24">
@@ -28,12 +35,29 @@ const CourseTable = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <TableRow>
-                        <TableCell className="font-medium">INV001</TableCell>
-                        <TableCell>Paid</TableCell>
-                        <TableCell>Credit Card</TableCell>
-                        <TableCell className="text-right">$250.00</TableCell>
-                    </TableRow>
+                    {data?.courses?.map((course) => (
+                        <TableRow key={course?._id}>
+                            <TableCell className="font-medium">
+                                {course?.coursePrice || "NA"}
+                            </TableCell>
+
+                            <TableCell>
+                                <Badge>
+                                    {course?.isPublished ? "Published" : "Draft"}
+                                </Badge>
+                            </TableCell>
+
+                            <TableCell>
+                                {course?.courseTitle}
+                            </TableCell>
+
+                            <TableCell className="text-right">
+                                <Button size="icon" variant="ghost">
+                                    <Edit className="h-4 w-4" />
+                                </Button>
+                            </TableCell>
+                        </TableRow>
+                    ))}
                 </TableBody>
             </Table>
         </div>
