@@ -23,7 +23,7 @@ const CourseTable = () => {
 
     return (
         <div className="mt-24">
-            <Button onClick={() => navigate("/admin/courses/add")}>Create a new course</Button>
+            <Button className="bg-[#415d60] mb-4 cursor-pointer" onClick={() => navigate("/admin/courses/add")}>Create a new course</Button>
             <Table>
                 <TableCaption>A list of your recent courses</TableCaption>
                 <TableHeader>
@@ -42,7 +42,7 @@ const CourseTable = () => {
                             </TableCell>
 
                             <TableCell>
-                                <Badge>
+                                <Badge className="bg-[#cbcaa5] text-gray-800">
                                     {course?.isPublished ? "Published" : "Draft"}
                                 </Badge>
                             </TableCell>
@@ -52,7 +52,7 @@ const CourseTable = () => {
                             </TableCell>
 
                             <TableCell className="text-right">
-                                <Button size="icon" variant="ghost">
+                                <Button size="icon" className="cursor-pointer" variant="ghost" onClick={() => navigate(`${course?._id}`)}>
                                     <Edit className="h-4 w-4" />
                                 </Button>
                             </TableCell>

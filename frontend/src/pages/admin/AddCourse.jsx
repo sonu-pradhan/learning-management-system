@@ -92,7 +92,7 @@ const AddCourse = () => {
                     <Button variant="outline" onClick={() => navigate("/admin/courses")}>
                         Back
                     </Button>
-                    <Button disabled={isLoading} onClick={createCourseHandler}>
+                    <Button className="bg-[#415d60] cursor-pointer" disabled={isLoading} onClick={createCourseHandler}>
                         {isLoading ? (
                             <>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
