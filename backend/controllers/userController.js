@@ -168,7 +168,7 @@ export const updateProfile = async (req, res) => {
             updatedData.cloudinaryProfileId = cloudResponse.public_id;
         }
 
-        const updatedUser = await User.findByIdAndUpdate(userId, updatedData, { new: true });
+        const updatedUser = await User.findByIdAndUpdate(userId, updatedData, {returnDocument: "after"});
 
         return res.status(200).json({
             success: true,

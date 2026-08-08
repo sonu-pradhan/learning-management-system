@@ -1,3 +1,4 @@
+import { useEditCourseMutation } from '@/api/courseApi';
 import Tiptap from '@/components/TiptapTextEditor';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -5,8 +6,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Loader2 } from 'lucide-react';
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const CourseTab = () => {
 
@@ -19,7 +21,11 @@ const CourseTab = () => {
         coursePrice: "",
         courseThumbnail: "",
     });
+    const params = useParams();
+    const courseId = params.courseId;
     const [previewThumbnail, setPreviewThumbnail] = useState("");
+
+    const [editCourse, { data, isLoading, isSuccess, error }] = useEditCourseMutation();
 
     const selectCategory = (value) => {
         setInput({ ...input, category: value });
@@ -45,12 +51,31 @@ const CourseTab = () => {
         }
     };
 
-    const updateCourseHandler = () => {
-        console.log(input);
+    const updateCourseHandler = async () => {
+        const formData = new FormData();
+        formData.append("courseTitle", input.courseTitle);
+        formData.append("subTitle", input.subTitle);
+        formData.append("description", input.description);
+        formData.append("category", input.category);
+        formData.append("courseLevel", input.courseLevel);
+        formData.append("coursePrice", input.coursePrice);
+        formData.append("courseThumbnail", input.courseThumbnail);
+
+        await editCourse({formData , courseId});
+
     }
 
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success(data.message || "Course update.");
+            navigate("/admin/courses")
+        }
+        if (error) {
+            toast.error(error.data.message || "Failed to update course");
+        }
+    }, [isSuccess, error]);
+
     const isPublished = false;
-    const isLoading = false;
 
     return (
         <Card>
@@ -145,6 +170,8 @@ const CourseTab = () => {
                             <Input
                                 type="number"
                                 name="coursePrice"
+                                value={input.coursePrice}
+                                onChange={changeEventHandler}
                                 placeholder="199"
                                 className="w-fit"
                             />
