@@ -1,4 +1,4 @@
-import { useEditCourseMutation } from '@/api/courseApi';
+import { useEditCourseMutation, useGetCourseByIdQuery } from '@/api/courseApi';
 import Tiptap from '@/components/TiptapTextEditor';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -18,14 +18,30 @@ const CourseTab = () => {
         description: "",
         category: "",
         courseLevel: "",
-        coursePrice: "",
+        coursePrice: 0,
         courseThumbnail: "",
     });
     const params = useParams();
     const courseId = params.courseId;
+    const { data: courseByIdData, isLoading: courseByIdLoading } = useGetCourseByIdQuery(courseId);
     const [previewThumbnail, setPreviewThumbnail] = useState("");
 
     const [editCourse, { data, isLoading, isSuccess, error }] = useEditCourseMutation();
+
+    useEffect(() => {
+        if (courseByIdData?.course) {
+            const course = courseByIdData?.course;
+            setInput({
+                courseTitle: course.courseTitle,
+                subTitle: course.subTitle,
+                description: course.description,
+                category: course.category,
+                courseLevel: course.courseLevel,
+                coursePrice: course.coursePrice,
+                courseThumbnail: "",
+            });
+        }
+    }, [courseByIdData]);
 
     const selectCategory = (value) => {
         setInput({ ...input, category: value });
@@ -58,12 +74,15 @@ const CourseTab = () => {
         formData.append("description", input.description);
         formData.append("category", input.category);
         formData.append("courseLevel", input.courseLevel);
-        formData.append("coursePrice", input.coursePrice);
+        if (input.coursePrice) {
+            formData.append("coursePrice", input.coursePrice);
+        }
         formData.append("courseThumbnail", input.courseThumbnail);
 
-        await editCourse({formData , courseId});
+        await editCourse({ formData, courseId });
 
     }
+
 
     useEffect(() => {
         if (isSuccess) {
@@ -76,6 +95,7 @@ const CourseTab = () => {
     }, [isSuccess, error]);
 
     const isPublished = false;
+    if (courseByIdLoading) return <h1>Loading...</h1>
 
     return (
         <Card>

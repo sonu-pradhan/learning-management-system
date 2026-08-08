@@ -4,7 +4,7 @@ const COURSE_API = import.meta.env.VITE_COURSE_URL;
 
 export const courseApi = createApi({
     reducerPath: "courseApi",
-    tagTypes: ["Refetch_Courses_By_Admin"],
+    tagTypes: ["Refetch_Courses_By_Admin", "Edited_Course"],
     baseQuery: fetchBaseQuery({
         baseUrl: COURSE_API,
         credentials: "include"
@@ -26,13 +26,21 @@ export const courseApi = createApi({
             providesTags: ["Refetch_Courses_By_Admin"]
         }),
         editCourse: builder.mutation({
-            query: ({formData, courseId}) => ({
+            query: ({ formData, courseId }) => ({
                 url: `/${courseId}`,
-                method:"PUT",
-                body:formData,
-            })
-        })
+                method: "PUT",
+                body: formData,
+            }),
+            invalidatesTags: ["Refetch_Courses_By_Admin", "Edited_Course"]
+        }),
+        getCourseById: builder.query({
+            query: (courseId) => ({
+                url: `/${courseId}`,
+                method: "GET",
+            }),
+            providesTags: ["Edited_Course"]
+        }),
     })
 })
 
-export const { useAddCourseMutation, useGetCoursesByAuthorQuery, useEditCourseMutation } = courseApi;
+export const { useAddCourseMutation, useGetCoursesByAuthorQuery, useEditCourseMutation, useGetCourseByIdQuery } = courseApi;
