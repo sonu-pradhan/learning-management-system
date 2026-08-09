@@ -20,9 +20,10 @@ const AddCourse = () => {
 
     const [courseTitle, setCourseTitle] = useState("");
     const [category, setCategory] = useState("");
+    const [level, setLevel] = useState("");
 
     const [addCourse, { data, isLoading, error, isSuccess }] =
-    useAddCourseMutation();
+        useAddCourseMutation();
 
 
     const navigate = useNavigate();
@@ -30,17 +31,20 @@ const AddCourse = () => {
     const getSelectedCategory = (value) => {
         setCategory(value);
     }
+    const selectCourseLevel = (value) => {
+        setLevel(value);
+    };
 
     const createCourseHandler = async () => {
-        await addCourse({courseTitle, category});
+        await addCourse({ courseTitle, category, level });
     }
 
-    useEffect(()=>{
-        if(isSuccess){
+    useEffect(() => {
+        if (isSuccess) {
             toast.success(data?.message || "Added new course");
             navigate("/admin/courses");
         }
-    },[isSuccess, error])
+    }, [isSuccess, error])
 
     return (
         <div className="flex-1 mx-10 mt-24">
@@ -58,35 +62,53 @@ const AddCourse = () => {
                         placeholder="Your Course Name"
                     />
                 </div>
-                <div>
-                    <Label>Category</Label>
-                    <Select onValueChange={getSelectedCategory}>
-                        <SelectTrigger className="w-45">
-                            <SelectValue placeholder="Select a category" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectLabel>Category</SelectLabel>
-                                <SelectItem value="Next JS">Next JS</SelectItem>
-                                <SelectItem value="Data Science">Data Science</SelectItem>
-                                <SelectItem value="Frontend Development">
-                                    Frontend Development
-                                </SelectItem>
-                                <SelectItem value="Fullstack Development">
-                                    Fullstack Development
-                                </SelectItem>
-                                <SelectItem value="MERN Stack Development">
-                                    MERN Stack Development
-                                </SelectItem>
-                                <SelectItem value="Javascript">Javascript</SelectItem>
-                                <SelectItem value="Python">Python</SelectItem>
-                                <SelectItem value="Docker">Docker</SelectItem>
-                                <SelectItem value="MongoDB">MongoDB</SelectItem>
-                                <SelectItem value="HTML">HTML</SelectItem>
-                                <SelectItem value="Java Fullstack">Java Fullstack</SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
+                <div className="flex items-center gap-5">
+                    <div>
+                        <Label>Category</Label>
+                        <Select onValueChange={getSelectedCategory}>
+                            <SelectTrigger className="w-45">
+                                <SelectValue placeholder="Select a category" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Category</SelectLabel>
+                                    <SelectItem value="Next JS">Next JS</SelectItem>
+                                    <SelectItem value="Data Science">Data Science</SelectItem>
+                                    <SelectItem value="Frontend Development">
+                                        Frontend Development
+                                    </SelectItem>
+                                    <SelectItem value="Fullstack Development">
+                                        Fullstack Development
+                                    </SelectItem>
+                                    <SelectItem value="MERN Stack Development">
+                                        MERN Stack Development
+                                    </SelectItem>
+                                    <SelectItem value="Javascript">Javascript</SelectItem>
+                                    <SelectItem value="Python">Python</SelectItem>
+                                    <SelectItem value="Docker">Docker</SelectItem>
+                                    <SelectItem value="MongoDB">MongoDB</SelectItem>
+                                    <SelectItem value="HTML">HTML</SelectItem>
+                                    <SelectItem value="Java Fullstack">Java Fullstack</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div>
+                        <Label className="mb-2">Course Level</Label>
+                        <Select onValueChange={selectCourseLevel}>
+                            <SelectTrigger className="w-45">
+                                <SelectValue placeholder="Select a course level" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Course Level</SelectLabel>
+                                    <SelectItem value="Beginner">Beginner</SelectItem>
+                                    <SelectItem value="Medium">Medium</SelectItem>
+                                    <SelectItem value="Advance">Advance</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    </div>
                 </div>
                 <div className="flex items-center gap-2">
                     <Button variant="outline" onClick={() => navigate("/admin/courses")}>

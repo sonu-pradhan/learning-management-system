@@ -4,17 +4,17 @@ const COURSE_API = import.meta.env.VITE_COURSE_URL;
 
 export const courseApi = createApi({
     reducerPath: "courseApi",
-    tagTypes: ["Refetch_Courses_By_Admin", "Edited_Course"],
+    tagTypes: ["Refetch_Courses_By_Admin", "Edited_Course", "Added_Lecture"],
     baseQuery: fetchBaseQuery({
         baseUrl: COURSE_API,
         credentials: "include"
     }),
     endpoints: (builder) => ({
         addCourse: builder.mutation({
-            query: ({ courseTitle, category }) => ({
+            query: ({ courseTitle, category, level }) => ({
                 url: "",
                 method: "POST",
-                body: { courseTitle, category }
+                body: { courseTitle, category, level }
             }),
             invalidatesTags: ["Refetch_Courses_By_Admin"]
         }),
@@ -31,7 +31,7 @@ export const courseApi = createApi({
                 method: "PUT",
                 body: formData,
             }),
-            invalidatesTags: ["Refetch_Courses_By_Admin", "Edited_Course"]
+            invalidatesTags: ["Refetch_Courses_By_Admin", "Edited_Course",]
         }),
         getCourseById: builder.query({
             query: (courseId) => ({
@@ -40,7 +40,26 @@ export const courseApi = createApi({
             }),
             providesTags: ["Edited_Course"]
         }),
+        createLecture: builder.mutation({
+            query: ({ lectureTitle, courseId }) => ({
+                url: `/${courseId}/lectures`,
+                method: "POST",
+                body: { lectureTitle },
+            }),
+            invalidatesTags: (result, error, {courseId}) => [
+                { type: "Added_Lecture", id: courseId }
+            ],
+        }),
+        getCourseLecture: builder.query({
+            query: (courseId) => ({
+                url: `/${courseId}/lectures`,
+                method: "GET",
+            }),
+            providesTags: (result, error, courseId) => [
+                { type: "Added_Lecture", id: courseId }
+            ],
+        }),
     })
 })
 
-export const { useAddCourseMutation, useGetCoursesByAuthorQuery, useEditCourseMutation, useGetCourseByIdQuery } = courseApi;
+export const { useAddCourseMutation, useGetCoursesByAuthorQuery, useEditCourseMutation, useGetCourseByIdQuery, useCreateLectureMutation, useGetCourseLectureQuery } = courseApi;
