@@ -5,6 +5,7 @@ import cors from "cors"
 import dbConnection from "./config/database.js";
 import userRoute from "./routes/userRoutes.js"
 import courseRoute from "./routes/courseRoutes.js"
+import videoUploadRoute from "./routes/videoUploadRoutes.js"
 
 
 dotenv.config();
@@ -25,6 +26,7 @@ app.use(cors({
   credentials: true
 }));
 
+app.use("/api/v1/video" ,videoUploadRoute)
 app.use("/api/v1/user",userRoute);
 app.use("/api/v1/course",courseRoute);
 
