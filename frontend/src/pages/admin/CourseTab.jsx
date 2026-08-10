@@ -77,7 +77,9 @@ const CourseTab = () => {
         if (input.coursePrice) {
             formData.append("coursePrice", input.coursePrice);
         }
-        formData.append("courseThumbnail", input.courseThumbnail);
+        if (input.courseThumbnail) {
+            formData.append("courseThumbnail", input.courseThumbnail);
+        }
 
         await editCourse({ formData, courseId });
 
@@ -86,11 +88,11 @@ const CourseTab = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            toast.success(data.message || "Course update.");
+            toast.success(data?.message || "Course update.");
             navigate("/admin/courses")
         }
         if (error) {
-            toast.error(error.data.message || "Failed to update course");
+            toast.error(error?.data?.message || "Failed to update course");
         }
     }, [isSuccess, error]);
 
@@ -142,7 +144,7 @@ const CourseTab = () => {
                     <div className="flex items-center gap-5">
                         <div>
                             <Label className="mb-2">Category</Label>
-                            <Select onValueChange={selectCategory}>
+                            <Select value={input.category} onValueChange={selectCategory}>
                                 <SelectTrigger className="w-45">
                                     <SelectValue placeholder="Select a category" />
                                 </SelectTrigger>
@@ -171,7 +173,7 @@ const CourseTab = () => {
                         </div>
                         <div>
                             <Label className="mb-2">Course Level</Label>
-                            <Select onValueChange={selectCourseLevel}>
+                            <Select value={input.courseLevel} onValueChange={selectCourseLevel}>
                                 <SelectTrigger className="w-45">
                                     <SelectValue placeholder="Select a course level" />
                                 </SelectTrigger>
