@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CourseTab from "./CourseTab";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 const EditCourse = () => {
 
@@ -18,7 +18,7 @@ const EditCourse = () => {
                     Add detail information regarding course
                 </h1>
                 <Link to ="lectures">
-                    <Button className="hover:text-blue-600 cursor-pointer" variant="link">Go to lectures page</Button>
+                    <Button className="hover:text-blue-600 cursor-pointer mr-12" variant="link">Go to lectures page<ArrowRight /></Button>
                 </Link>
             </div>
             <CourseTab />

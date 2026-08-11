@@ -1,10 +1,15 @@
+import { useGetPublishedCourseQuery } from '@/api/courseApi';
 import CourseCard from '@/components/CourseCard';
 import { Skeleton } from '@/components/ui/skeleton';
 import React from 'react'
 
 const Courses = () => {
-    const isLoading = false;
-    const courses = [1,2,3,4,5,6,7,8,9,10];
+
+    const { data, isLoading, isError } = useGetPublishedCourseQuery();
+    console.log(data);
+
+    if (isError) return <h1>error while fetching courses.</h1>
+
     return (
         <div>
             <div className="max-w-7xl mx-auto p-6">
@@ -14,7 +19,7 @@ const Courses = () => {
                         Array.from({ length: 8 }).map((_, index) => (
                             <CourseSkeleton key={index} />
                         ))
-                    ) : (courses.map((courses, index) => <CourseCard key={index}/>))
+                    ) : (data?.courses.map((course, index) => <CourseCard key={index} course={course} />))
                     }
                 </div>
             </div>

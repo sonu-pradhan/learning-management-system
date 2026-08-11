@@ -1,4 +1,4 @@
-import { useEditCourseMutation, useGetCourseByIdQuery } from '@/api/courseApi';
+import { useEditCourseMutation, useGetCourseByIdQuery, usePublishCourseMutation, useRemoveCourseMutation } from '@/api/courseApi';
 import Tiptap from '@/components/TiptapTextEditor';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -23,10 +23,14 @@ const CourseTab = () => {
     });
     const params = useParams();
     const courseId = params.courseId;
-    const { data: courseByIdData, isLoading: courseByIdLoading } = useGetCourseByIdQuery(courseId);
+    const { data: courseByIdData, isLoading: courseByIdLoading, refetch } = useGetCourseByIdQuery(courseId);
     const [previewThumbnail, setPreviewThumbnail] = useState("");
 
     const [editCourse, { data, isLoading, isSuccess, error }] = useEditCourseMutation();
+
+    const [publishCourse] = usePublishCourseMutation();
+
+    const [removeCourse, { isLoading: removeIsLoading }] = useRemoveCourseMutation();
 
     useEffect(() => {
         if (courseByIdData?.course) {
@@ -67,6 +71,19 @@ const CourseTab = () => {
         }
     };
 
+    const publishStatusHandler = async (action) => {
+        try {
+            const response = await publishCourse({ courseId, query: action });
+            if (response?.data) {
+                refetch();
+                console.log(response?.data);
+                toast.success(response?.data.message);
+            }
+        } catch (error) {
+            toast.error("Failed to update");
+        }
+    };
+
     const updateCourseHandler = async () => {
         const formData = new FormData();
         formData.append("courseTitle", input.courseTitle);
@@ -96,8 +113,22 @@ const CourseTab = () => {
         }
     }, [isSuccess, error]);
 
-    const isPublished = false;
     if (courseByIdLoading) return <h1>Loading...</h1>
+
+    const removeCourseHandler = async () => {
+        try {
+            const result = await removeCourse(courseId).unwrap();
+
+            console.log(result);
+            toast.success(result.message);
+            navigate("/admin/courses")
+        } catch (error) {
+            console.log(error);
+            toast.error(error?.data?.message || "Failed to remove course");
+        }
+    };
+
+    if (removeIsLoading) return <h1> <Loader2 className="mr-2 h-4 w-4 animate-spin" />please wait</h1>
 
     return (
         <Card>
@@ -109,10 +140,10 @@ const CourseTab = () => {
                     </CardDescription>
                 </div>
                 <div className="space-x-2">
-                    <Button variant="outline" >
-                        {isPublished ? "Unpublished" : "Publish"}
+                    <Button disabled={courseByIdData?.course.lectures.length === 0} variant="outline" onClick={() => publishStatusHandler(courseByIdData?.course.isPublished ? "false" : "true")} >
+                        {courseByIdData?.course.isPublished ? "Unpublish" : "Publish"}
                     </Button>
-                    <Button className="bg-[#415d60] cursor-pointer">Remove Course</Button>
+                    <Button className="cursor-pointer" onClick={removeCourseHandler} variant="destructive">Remove Course</Button>
                 </div>
             </CardHeader>
             <CardContent>

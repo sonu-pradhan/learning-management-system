@@ -43,7 +43,7 @@ const CourseTable = () => {
 
                             <TableCell>
                                 <Badge className="bg-[#cbcaa5] text-gray-800">
-                                    {course?.isPublished ? "Published" : "Draft"}
+                                    {course?.isPublished ? "Published" : "Unpublished"}
                                 </Badge>
                             </TableCell>
 

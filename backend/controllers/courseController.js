@@ -30,6 +30,25 @@ export const createCourse = async (req, res) => {
     }
 }
 
+export const getPublishedCourse = async (_, res) => {
+    try {
+        const courses = await Course.find({ isPublished: true }).populate({ path: "author", select: "name profilePhoto" });
+        if (!courses) {
+            return res.status(404).json({
+                message: "Course not found"
+            })
+        }
+        return res.status(200).json({
+            courses,
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Failed to get published courses"
+        })
+    }
+}
+
 export const getCoursesByAuthor = async (req, res) => {
     try {
         const userId = req.id;
@@ -250,3 +269,79 @@ export const getLectureById = async (req, res) => {
         })
     }
 }
+
+export const togglePublishCourse = async (req, res) => {
+    try {
+        const { courseId } = req.params;
+        const { publish } = req.query;
+        const course = await Course.findById(courseId);
+        if (!course) {
+            return res.status(404).json({
+                message: "Course not found!"
+            });
+        }
+        course.isPublished = publish === "true";
+        await course.save();
+
+        const statusMessage = course.isPublished ? "Published" : "Unpublished";
+        console.log(statusMessage);
+        return res.status(200).json({
+            message: `Course ${statusMessage}`,
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Failed to update status"
+        })
+    }
+}
+
+export const removeCourse = async (req, res) => {
+    try {
+        const { courseId } = req.params;
+
+        const course = await Course.findById(courseId);
+
+        if (!course) {
+            return res.status(404).json({
+                message: "Course not found!"
+            });
+        }
+
+        if (course.courseThumbnail) {
+            const publicId = course.courseThumbnail
+                .split("/")
+                .pop()
+                .split(".")[0];
+
+            await deleteImageFromCloud(publicId);
+        }
+
+        const lectures = await Lecture.find({
+            _id: { $in: course.lectures }
+        });
+
+        for (const lecture of lectures) {
+            if (lecture.publicId) {
+                await deleteVideoFromCloud(lecture.publicId);
+            }
+        }
+
+        await Lecture.deleteMany({
+            _id: { $in: course.lectures }
+        });
+
+        await Course.findByIdAndDelete(courseId);
+
+        return res.status(200).json({
+            message: "Course and all associated files removed successfully."
+        });
+
+    } catch (error) {
+        console.log(error);
+
+        return res.status(500).json({
+            message: "Failed to remove course"
+        });
+    }
+};
