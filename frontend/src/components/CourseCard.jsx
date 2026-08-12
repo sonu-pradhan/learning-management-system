@@ -2,9 +2,11 @@ import React from 'react'
 import { Card, CardContent } from './ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Badge } from './ui/badge'
+import { Link } from 'react-router-dom'
 
 const CourseCard = ({course}) => {
   return (
+    <Link to={`course-detail/${course._id}`}>
     <Card className="overflow-hidden rounded-lg dark:bg-gray-800 bg-white shadow-lg hover:shadow-2xl mt-6 transform hover:scale-105 transition-all duration-300">
       <div className="relative  cursor-pointer">
         <img
@@ -34,6 +36,7 @@ const CourseCard = ({course}) => {
         </div>
       </CardContent>
     </Card>
+    </Link>
   )
 }
 
