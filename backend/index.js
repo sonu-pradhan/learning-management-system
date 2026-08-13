@@ -6,6 +6,7 @@ import dbConnection from "./config/database.js";
 import userRoute from "./routes/userRoutes.js"
 import courseRoute from "./routes/courseRoutes.js"
 import videoUploadRoute from "./routes/videoUploadRoutes.js"
+import purchaseRoute from "./routes/coursePurchaseRoutes.js"
 
 
 dotenv.config();
@@ -29,6 +30,7 @@ app.use(cors({
 app.use("/api/v1/video" ,videoUploadRoute)
 app.use("/api/v1/user",userRoute);
 app.use("/api/v1/course",courseRoute);
+app.use("/api/v1/purchase" ,purchaseRoute);
 
 
 app.listen(PORT,()=>{
