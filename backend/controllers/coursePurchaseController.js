@@ -1,6 +1,7 @@
 import Razorpay from "razorpay";
-import Course from "../models/courseSchema.js";
-import CoursePurchase from "../models/coursePurchaseSchema.js";
+import { Course } from "../models/courseSchema.js";
+import { CoursePurchase } from "../models/coursePurchaseSchema.js";
+import { User } from "../models/userSchema.js"
 import crypto from "crypto";
 
 const razorpay = new Razorpay({ key_id: process.env.RZP_API_KEY, key_secret: process.env.RZP_SECRET });
@@ -70,7 +71,7 @@ export const verifyRazorpayPayment = async (req, res) => {
         const expectedSignature = crypto
             .createHmac(
                 "sha256",
-                process.env.RAZORPAY_KEY_SECRET
+                process.env.RZP_SECRET
             )
             .update(body)
             .digest("hex");
@@ -116,6 +117,41 @@ export const verifyRazorpayPayment = async (req, res) => {
 
         return res.status(500).json({
             success: false,
+            message: "Internal Server Error",
+        });
+    }
+};
+
+export const getCourseDetailWithPurchaseStatus = async (req, res) => {
+    try {
+        const { courseId } = req.params;
+        const userId = req.id;
+
+        const course = await Course.findById(courseId)
+            .populate({ path: "author" })
+            .populate({ path: "lectures" });
+
+        if (!course) {
+            return res.status(404).json({
+                message: "Course not found!",
+            });
+        }
+
+        const purchased = await CoursePurchase.findOne({
+            userId,
+            courseId,
+            status: "completed",
+        });
+
+        return res.status(200).json({
+            course,
+            purchased: !!purchased,
+        });
+
+    } catch (error) {
+        console.error("Get course detail error:", error);
+
+        return res.status(500).json({
             message: "Internal Server Error",
         });
     }
