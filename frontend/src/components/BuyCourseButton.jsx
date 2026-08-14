@@ -20,7 +20,7 @@ const BuyCourseButton = ({ courseId }) => {
         key: result.key,
         amount: result.order.amount,
         currency: result.order.currency,
-        name: "LMS",
+        name: "Learn  Infinity",
         description: "Course Purchase",
 
         order_id: result.order.id,

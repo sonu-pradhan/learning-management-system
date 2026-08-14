@@ -7,7 +7,7 @@ import userRoute from "./routes/userRoutes.js"
 import courseRoute from "./routes/courseRoutes.js"
 import videoUploadRoute from "./routes/videoUploadRoutes.js"
 import purchaseRoute from "./routes/coursePurchaseRoutes.js"
-
+import courseProgressRoute from "./routes/courseProgressRoutes.js"
 
 dotenv.config();
 
@@ -31,6 +31,7 @@ app.use("/api/v1/video" ,videoUploadRoute)
 app.use("/api/v1/user",userRoute);
 app.use("/api/v1/course",courseRoute);
 app.use("/api/v1/purchase" ,purchaseRoute);
+app.use("/api/v1/progress" ,courseProgressRoute);
 
 
 app.listen(PORT,()=>{

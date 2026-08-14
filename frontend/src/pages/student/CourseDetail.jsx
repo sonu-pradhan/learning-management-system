@@ -5,12 +5,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Separator } from '@/components/ui/separator'
 import { BadgeInfo, Lock, PlayCircle } from 'lucide-react'
 import React from 'react'
-import { useParams } from 'react-router-dom'
-import ReactPlayer from 'react-player'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const CourseDetail = () => {
     const params = useParams();
     const courseId = params.courseId;
+    const navigate = useNavigate();
 
     const { data, isLoading, isError } = useGetCourseDeatailWithStatusQuery(courseId);
 
@@ -18,7 +18,12 @@ const CourseDetail = () => {
     if (isError) return <h1>Failed to load course details</h1>
 
     const { course, purchased } = data;
-    console.log(course);
+
+    const handleContinueCourse = () => {
+        if (purchased) {
+            navigate(`/course-progress/${courseId}`)
+        }
+    }
 
     return (
         <div className="mt-18 space-y-5">
@@ -66,19 +71,24 @@ const CourseDetail = () => {
                     <Card>
                         <CardContent className="p-2 flex flex-col">
                             <div className="w-full aspect-video mb-4">
-                                <ReactPlayer
-                                    width="100%"
-                                    height={"100%"}
-                                    src={course?.lectures[0]?.videoUrl}
-                                    controls={true}
-                                />
+                                <video
+                                    className="w-full h-full"
+                                    controls
+                                    controlsList="nodownload"
+                                    onContextMenu={(e) => e.preventDefault()}
+                                >
+                                    <source
+                                        src={course?.lectures?.[0]?.videoUrl}
+                                        type="video/mp4"
+                                    />
+                                </video>
                             </div>
-                            <h1>Lecture Title</h1>
+                            <h1>{course.courseTitle}</h1>
                             <Separator className="my-2" />
                             {purchased ? "" : (<h1 className="text-lg md:text-xl font-semibold">₹{course?.coursePrice}</h1>)}
                             <div className="flex justify-center p-1">
                                 {
-                                    purchased ? (<Button className="w-full h-10 bg-[#2f494c] cursor-pointer">Countinue</Button>) : <BuyCourseButton courseId={courseId} />
+                                    purchased ? (<Button onClick={handleContinueCourse} className="w-full h-10 bg-[#2f494c] cursor-pointer">Countinue</Button>) : <BuyCourseButton courseId={courseId} />
                                 }
                             </div>
                         </CardContent>
