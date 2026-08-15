@@ -49,7 +49,7 @@ const CourseDetail = () => {
                     <Card>
                         <CardHeader>
                             <CardTitle>Course content</CardTitle>
-                            <CardDescription>7 lectures</CardDescription>
+                            <CardDescription>{course?.lectures.length} Lectures</CardDescription>
                         </CardHeader>
                         <CardContent>
                             {

@@ -3,11 +3,12 @@ import rootReducer from "./rootReducer";
 import { authApi } from "@/api/authApi";
 import { courseApi } from "@/api/courseApi";
 import { purchaseApi } from "@/api/purchaseApi";
+import { courseProgressApi } from "@/api/courseProgressApi";
 
 export const store = configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(authApi.middleware, courseApi.middleware, purchaseApi.middleware),
+        getDefaultMiddleware().concat(authApi.middleware, courseApi.middleware, purchaseApi.middleware, courseProgressApi.middleware),
 });
 
 const persistApp = async () => {
