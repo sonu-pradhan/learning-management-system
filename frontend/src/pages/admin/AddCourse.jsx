@@ -72,23 +72,25 @@ const AddCourse = () => {
                             <SelectContent>
                                 <SelectGroup>
                                     <SelectLabel>Category</SelectLabel>
-                                    <SelectItem value="Next JS">Next JS</SelectItem>
-                                    <SelectItem value="Data Science">Data Science</SelectItem>
-                                    <SelectItem value="Frontend Development">
-                                        Frontend Development
+                                    <SelectItem value="AI">AI</SelectItem>
+                                    <SelectItem value="Cloud Engineering">Cloud Engineering</SelectItem>
+                                    <SelectItem value="CyberSecurity">
+                                        CyberSecurity
                                     </SelectItem>
-                                    <SelectItem value="Fullstack Development">
-                                        Fullstack Development
+                                    <SelectItem value="Computer Science core">Computer Science core</SelectItem>
+                                    <SelectItem value="Software Testing">Database</SelectItem>
+                                    <SelectItem value="Data Science">
+                                        Data Science
                                     </SelectItem>
-                                    <SelectItem value="MERN Stack Development">
-                                        MERN Stack Development
+                                    <SelectItem value="Web Development">
+                                        Web Development
                                     </SelectItem>
-                                    <SelectItem value="Javascript">Javascript</SelectItem>
-                                    <SelectItem value="Python">Python</SelectItem>
-                                    <SelectItem value="Docker">Docker</SelectItem>
-                                    <SelectItem value="MongoDB">MongoDB</SelectItem>
-                                    <SelectItem value="HTML">HTML</SelectItem>
-                                    <SelectItem value="Java Fullstack">Java Fullstack</SelectItem>
+                                    <SelectItem value="Mobile Development">Mobile Development</SelectItem>
+                                    <SelectItem value="Programming Languages">Programming Languages</SelectItem>
+                                    <SelectItem value="Machine Learning">Machine Learning</SelectItem>
+                                    <SelectItem value="System Design">System Design</SelectItem>
+                                    <SelectItem value="Software Testing">Software Testing</SelectItem>
+                                    <SelectItem value="Others">Others</SelectItem>
                                 </SelectGroup>
                             </SelectContent>
                         </Select>

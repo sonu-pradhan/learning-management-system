@@ -25,6 +25,17 @@ const CourseProgress = () => {
         { data: markInCompleteData, isSuccess: inCompleteSuccess },
     ] = useInCompleteCourseMutation();
 
+    useEffect(() => {
+        if (completedSuccess) {
+            refetch();
+            toast.success(markCompleteData.message);
+        }
+        if (inCompleteSuccess) {
+            refetch();
+            toast.success(markInCompleteData.message);
+        }
+    }, [completedSuccess, inCompleteSuccess]);
+
     if (isLoading) return <p>Loading ...</p>;
     if (isError) return <p>Failed to load course details</p>
 
@@ -52,18 +63,6 @@ const CourseProgress = () => {
         await inCompleteCourse(courseId);
     };
 
-    useEffect(() => {
-        console.log(markCompleteData);
-
-        if (completedSuccess) {
-            refetch();
-            toast.success(markCompleteData.message);
-        }
-        if (inCompleteSuccess) {
-            refetch();
-            toast.success(markInCompleteData.message);
-        }
-    }, [completedSuccess, inCompleteSuccess]);
 
     return (
         <div className="max-w-7xl mx-auto p-4 mt-24">
