@@ -345,3 +345,41 @@ export const removeCourse = async (req, res) => {
         });
     }
 };
+
+export const searchCourse = async (req, res) => {
+    try {
+        const { query = "", sortByPrice = "" } = req.query;
+        const categories = req.query.categories? req.query.categories.split(","): [];
+
+        const searchCriteria = {
+            isPublished: true,
+            $or: [
+                { courseTitle: { $regex: query, $options: "i" } },
+                { subTitle: { $regex: query, $options: "i" } },
+                { category: { $regex: query, $options: "i" } },
+            ]
+        }
+
+        if (categories.length > 0) {
+            searchCriteria.category = { $in: categories };
+        }
+
+        const sortOptions = {};
+        if (sortByPrice === "Low") {
+            sortOptions.coursePrice = 1;
+        } else if (sortByPrice === "High") {
+            sortOptions.coursePrice = -1;
+        }
+
+        let courses = await Course.find(searchCriteria).populate({ path: "author", select: "name profilePhoto" }).sort(sortOptions);
+
+        return res.status(200).json({
+            success: true,
+            courses: courses || []
+        });
+
+    } catch (error) {
+        console.log(error);
+
+    }
+}

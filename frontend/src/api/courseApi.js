@@ -106,8 +106,27 @@ export const courseApi = createApi({
                 method: "DELETE",
             }),
             invalidatesTags: ["Refetch_Courses_By_Admin"]
-        })
+        }),
+        getSearchCourse: builder.query({
+            query: ({ searchQuery, categories, sortByPrice }) => {
+                let queryString = `/search?query=${encodeURIComponent(searchQuery)}`
+
+                if (categories && categories.length > 0) {
+                    const categoriesString = categories.map(encodeURIComponent).join(",");
+                    queryString += `&categories=${categoriesString}`;
+                }
+
+                if (sortByPrice) {
+                    queryString += `&sortByPrice=${encodeURIComponent(sortByPrice)}`;
+                }
+
+                return {
+                    url: queryString,
+                    method: "GET",
+                }
+            }
+        }),
     })
 })
 
-export const { useAddCourseMutation, useGetCoursesByAuthorQuery, useEditCourseMutation, useGetCourseByIdQuery, useCreateLectureMutation, useGetCourseLectureQuery, useEditLectureMutation, useRemoveLectureMutation, useGetLectureByIdQuery, usePublishCourseMutation, useRemoveCourseMutation, useGetPublishedCourseQuery } = courseApi;
+export const { useAddCourseMutation, useGetCoursesByAuthorQuery, useEditCourseMutation, useGetCourseByIdQuery, useCreateLectureMutation, useGetCourseLectureQuery, useEditLectureMutation, useRemoveLectureMutation, useGetLectureByIdQuery, usePublishCourseMutation, useRemoveCourseMutation, useGetPublishedCourseQuery, useGetSearchCourseQuery } = courseApi;
