@@ -6,7 +6,7 @@ import fs from "node:fs"
 
 export const Register = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, role } = req.body;
 
         if (!name || !email || !password) {
             return res.status(401).json({
@@ -36,7 +36,8 @@ export const Register = async (req, res) => {
         await User.create({
             name,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            role
         });
 
         return res.status(201).json({
@@ -117,7 +118,7 @@ export const Logout = async (_, res) => {
 export const getUserProfile = async (req, res) => {
     try {
         const userId = req.id;
-        const user = await User.findById(userId).select("-password")
+        const user = await User.findById(userId).select("-password").populate("enrolledCourses");
         if (!user) {
             return res.status(404).json({
                 message: "Profile not found",

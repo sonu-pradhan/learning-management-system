@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import {
     Tabs,
     TabsContent,
@@ -20,10 +21,12 @@ import { Loader2 } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { toast } from "sonner"
+import { useSearchParams } from "react-router-dom";
+
 
 const Login = () => {
 
-    const [signupInput, setSignupInput] = useState({ name: "", email: "", password: "" });
+    const [signupInput, setSignupInput] = useState({ name: "", email: "", password: "", role: "student" });
     const [loginInput, setLoginInput] = useState({ email: "", password: "" });
 
     const changeInputHandler = (e, type) => {
@@ -34,6 +37,9 @@ const Login = () => {
             setLoginInput({ ...loginInput, [name]: value });
         }
     }
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const tab = searchParams.get("tab") || "login";
 
     const [
         registerUser,
@@ -61,37 +67,41 @@ const Login = () => {
     };
 
     const navigate = useNavigate();
-    
+
     useEffect(() => {
-    if (registerIsSuccess && registerData) {
-        toast.success(registerData?.message || "Signup successful");
-    }
+        if (registerIsSuccess && registerData) {
+            toast.success(registerData?.message || "Signup successful");
+        }
 
-    if (registerError) {
-        toast.error(registerError?.data?.message || "Signup failed");
-    }
+        if (registerError) {
+            toast.error(registerError?.data?.message || "Signup failed");
+        }
 
-    if (loginIsSuccess && loginData) {
-        toast.success(loginData?.message || "Login successful");
-        navigate("/")
-    }
+        if (loginIsSuccess && loginData) {
+            toast.success(loginData?.message || "Login successful");
+            navigate("/")
+        }
 
-    if (loginError) {
-        toast.error(loginError?.data?.message || "Login failed");
-    }
-}, [
-    registerIsSuccess,
-    registerData,
-    registerError,
-    loginIsSuccess,
-    loginData,
-    loginError
-]);
+        if (loginError) {
+            toast.error(loginError?.data?.message || "Login failed");
+        }
+    }, [
+        registerIsSuccess,
+        registerData,
+        registerError,
+        loginIsSuccess,
+        loginData,
+        loginError
+    ]);
 
 
     return (
         <div className="flex mt-30 justify-center w-full">
-            <Tabs defaultValue="account" className="w-100">
+            <Tabs
+                value={tab}
+                onValueChange={(value) => setSearchParams({ tab: value })}
+                className="w-100"
+            >
                 <TabsList className="grid w-full grid-cols-2 bg-[#cbcaa5]">
                     <TabsTrigger value="signup">SignUp</TabsTrigger>
                     <TabsTrigger value="login">Login</TabsTrigger>
@@ -130,6 +140,26 @@ const Login = () => {
                                     value={signupInput.password}
                                     required={true}
                                     onChange={(e) => { changeInputHandler(e, "signup") }} />
+                            </div>
+                            <div className="space-y-1">
+                                <Label htmlFor="role">Role</Label>
+                                <Select value={signupInput.role}
+                                    onValueChange={(value) =>
+                                        setSignupInput({
+                                            ...signupInput,
+                                            role: value
+                                        })
+                                    }>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select your role" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectItem value="instructor">instructor</SelectItem>
+                                            <SelectItem value="student">student</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
                             </div>
                         </CardContent>
                         <CardFooter>

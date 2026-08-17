@@ -156,3 +156,28 @@ export const getCourseDetailWithPurchaseStatus = async (req, res) => {
         });
     }
 };
+
+export const getAllPurchasedCourse = async (req, res) => {
+    try {
+        const userId = req.id;
+
+        const courses = await Course.find({ author: userId }).select("_id");
+        const courseIds = courses.map(course => course._id);
+
+        const purchasedCourse = await CoursePurchase.find({
+            status: "completed",
+            courseId: { $in: courseIds },
+        }).populate("courseId");
+
+        if (!purchasedCourse) {
+            return res.status(404).json({
+                purchasedCourse: [],
+            });
+        }
+        return res.status(200).json({
+            purchasedCourse,
+        });
+    } catch (error) {
+        console.log(error);
+    }
+};

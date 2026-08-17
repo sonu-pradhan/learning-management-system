@@ -75,8 +75,7 @@ const Navbar = () => {
                                     <DropdownMenuGroup>
                                         <DropdownMenuLabel>My Account</DropdownMenuLabel>
                                         <DropdownMenuItem><Link to="profile">Profile</Link></DropdownMenuItem>
-                                        <DropdownMenuItem><Link to="my-learning">My Learning</Link></DropdownMenuItem>
-                                        {role === "instructor" && (<DropdownMenuItem>Dashboard</DropdownMenuItem>)}
+                                        <DropdownMenuItem><Link to="my-learning">My Learning</Link></DropdownMenuItem> { role === "instructor" && (<DropdownMenuItem><Link to="/admin">Dashboard</Link></DropdownMenuItem>)}
                                     </DropdownMenuGroup>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuGroup>
@@ -85,8 +84,8 @@ const Navbar = () => {
                                 </DropdownMenuContent>
                             </DropdownMenu>) :
                             (<div className="flex items-center cursor-pointer gap-2">
-                                <Button variant="outline" onClick={() => navigate("/login")}>Login</Button>
-                                <Button variant="outline" onClick={() => navigate("/login")}>SignUp</Button>
+                                <Button variant="outline" onClick={() => navigate("/login?tab=login")}>Login</Button>
+                                <Button variant="outline" onClick={() => navigate("/login?tab=signup")}>SignUp</Button>
                             </div>)
                     }<div className="pl-5">
                         <DarkMode />
@@ -153,7 +152,7 @@ const MobileNavbar = () => {
                         <nav className="flex flex-col space-y-4 px-4 pt-4">
                             <span><Link to="my-learning" onClick={() => setOpen(false)}>My Learning</Link></span>
                             <span><Link to="profile" onClick={() => setOpen(false)}>Profile</Link></span>
-                            {role === "instructor" && (<span>Dashboard</span>)}
+                            {role === "instructor" && (<span><Link to="/admin">Dashboard</Link></span>)}
                         </nav>
                         <SheetFooter>
                             <Button variant="destructive" type="submit" onClick={logoutHandler}>logout</Button>
@@ -166,7 +165,7 @@ const MobileNavbar = () => {
                         <p className="text-sm text-gray-400">
                             Access your courses, profile, and dashboard by signing into your account.
                         </p>
-                        <Button className="w-full bg-white border-gray-700 text-black hover:bg-gray-200" onClick={() => navigate("/login")}>
+                        <Button className="w-full bg-white border-gray-700 text-black hover:bg-gray-200" onClick={() => navigate("/login?tab=signup")}>
                             Login
                         </Button>
                     </div>

@@ -31,8 +31,14 @@ export const purchaseApi = createApi({
                 method: "GET"
             }),
             providesTags: ["CoursePurchase"],
-        })
+        }),
+        getPurchasedCourses: builder.query({
+            query: () => ({
+                url: `/`,
+                method: "GET",
+            }),
+        }),
     })
 })
 
-export const { useCreateRazorpayOrderMutation, useVerifyRazorpayPaymentMutation, useGetCourseDeatailWithStatusQuery } = purchaseApi;
+export const { useCreateRazorpayOrderMutation, useVerifyRazorpayPaymentMutation, useGetCourseDeatailWithStatusQuery, useGetPurchasedCoursesQuery } = purchaseApi;
