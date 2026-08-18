@@ -23,7 +23,7 @@ const CourseTable = () => {
 
     return (
         <div className="mt-24">
-            <Button className="bg-[#415d60] mb-4 cursor-pointer" onClick={() => navigate("/admin/courses/add")}>Create a new course</Button>
+            <Button className="bg-[#415d60] mb-4 cursor-pointer dark:text-white" onClick={() => navigate("/admin/courses/add")}>Create a new course</Button>
             <Table>
                 <TableCaption>A list of your recent courses</TableCaption>
                 <TableHeader>

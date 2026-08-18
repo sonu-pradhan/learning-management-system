@@ -28,7 +28,7 @@ const Tiptap = ({ input, setInput }) => {
 
     return (
         <div className="border rounded-lg overflow-hidden">
-            <div className="flex items-center gap-2 border-b p-2 bg-gray-50">
+            <div className="flex dark:bg-gray-800 bg-[#8090a1] items-center gap-2 border-b p-2 bg-gray-50">
                 <button
                     onClick={() => editor.chain().focus().setParagraph().run()}
                     className="px-2 py-1 cursor-pointer border rounded"

@@ -11,9 +11,10 @@ const Courses = () => {
     if (isError) return <h1>error while fetching courses.</h1>
 
     return (
-        <div>
-            <div className="max-w-7xl mx-auto p-6">
-                <h1 className="text-2xl font-bold text-zinc-700 mt-10">Trending Courses</h1>
+        <div className="bg-[linear-gradient(180deg,#dee6ea_0%,#cbd2df_20%,#b8bfce_40%,#a5aebc_60%,#929eab_80%,#8090a1_100%)]
+        dark:bg-[linear-gradient(0deg,#121216_0%,#201f23_25%,#2c2b2f_50%,#37363a_75%,#3e3d42_100%)]">
+            <div className="max-w-7xl  mx-auto p-6">
+                <h1 className="text-2xl font-bold text-zinc-800 mt-10 dark:text-slate-100">Trending Courses</h1>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {isLoading ? (
                         Array.from({ length: 8 }).map((_, index) => (

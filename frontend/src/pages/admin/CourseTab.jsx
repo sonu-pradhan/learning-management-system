@@ -250,7 +250,7 @@ const CourseTab = () => {
                         <Button onClick={() => navigate("/admin/courses")} variant="outline">
                             Cancel
                         </Button>
-                        <Button className="bg-[#415d60] cursor-pointer" onClick={updateCourseHandler} disabled={isLoading}>
+                        <Button className="bg-[#415d60] dark:text-white cursor-pointer" onClick={updateCourseHandler} disabled={isLoading}>
                             {isLoading ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

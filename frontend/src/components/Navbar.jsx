@@ -53,13 +53,15 @@ const Navbar = () => {
 
 
     return (
-        <div className="h-18 bg-white dark:bg-[#0A0A0A] border-b dark:border-b-gray-800 border-b-gray-200 fixed top-0 left-0 right-0 duration-300 z-10">
+        <div className="h-18 bg-[linear-gradient(180deg,#dee6ea_0%,#cbd2df_20%,#b8bfce_40%,#a5aebc_60%,#929eab_80%,#8090a1_100%)] dark:bg-[linear-gradient(0deg,#121216_0%,#1f2023_25%,#2b2c2f_50%,#36373a_75%,#3d3e42_100%)] border-b dark:border-b-gray-800 border-b-[#dbdbdb] fixed top-0 left-0 right-0 duration-300 z-10">
             <div className="max-w-7xl mx-auto hidden md:flex justify-between items-center gap-10 h-full">
 
                 <div className="flex items-center gap-2">
-                    <LibraryBig size={"25"} className="text-slate-800" />
+                    <LibraryBig size={"25"} className="text-slate-800 dark:text-slate-200" />
                     <Link to="/">
-                        <h1 className="hidden md:block font-extrabold text-2xl text-slate-800">Learn <span className="bg-linear-to-r from-[#334d50] to-[#cbcaa5] text-white dark:text-white">Infinity</span></h1>
+                        <h1 className="hidden md:block font-extrabold text-2xl text-slate-900 dark:font-semibold dark:text-white">Learn <span className="bg-[conic-gradient(from_270deg,#d4dec7_0deg,#b6c0b7_51.429deg,#98a4a8_102.857deg,#7e899a_154.286deg,#66718c_205.714deg,#535d7f_257.143deg,#454d73_308.571deg,#3c4268_360deg)]
+                        dark:bg-[conic-gradient(from_225deg,#000004_0deg,#000006_18deg,#030309_36deg,#06060b_54deg,#09090e_72deg,#0c0c11_90deg,#0f0f14_108deg,#121317_126deg,#15161a_144deg,#19191d_162deg,#1c1c20_180deg,#1f2023_198deg,#222326_216deg,#252629_234deg,#28292c_252deg,#2b2c2f_270deg,#2e2f32_288deg,#313134_306deg,#333437_324deg,#353639_342deg,#38383c_360deg)] 
+                        text-white dark:text-white">Infinity</span></h1>
                     </Link>
                 </div>
 
@@ -75,7 +77,7 @@ const Navbar = () => {
                                     <DropdownMenuGroup>
                                         <DropdownMenuLabel>My Account</DropdownMenuLabel>
                                         <DropdownMenuItem><Link to="profile">Profile</Link></DropdownMenuItem>
-                                        <DropdownMenuItem><Link to="my-learning">My Learning</Link></DropdownMenuItem> { role === "instructor" && (<DropdownMenuItem><Link to="/admin">Dashboard</Link></DropdownMenuItem>)}
+                                        <DropdownMenuItem><Link to="my-learning">My Learning</Link></DropdownMenuItem> {role === "instructor" && (<DropdownMenuItem><Link to="/admin">Dashboard</Link></DropdownMenuItem>)}
                                     </DropdownMenuGroup>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuGroup>
@@ -95,9 +97,11 @@ const Navbar = () => {
             <div className="flex md:hidden items-center justify-between px-4 h-full">
 
                 <div className="flex items-center gap-2">
-                    <LibraryBig size={"20"} className="text-slate-800" />
+                    <LibraryBig size={"20"} className="text-slate-800 dark:text-slate-200" />
                     <Link to="/">
-                        <h1 className="font-extrabold text-xl text-slate-800">Learn <span className="bg-linear-to-r from-[#334d50] to-[#cbcaa5] text-white dark:text-white">Infinity</span></h1>
+                        <h1 className="font-extrabold text-xl text-slate-800 dark:font-semibold dark:text-white">Learn <span className="bg-[conic-gradient(from_270deg,#d4dec7_0deg,#b6c0b7_51.429deg,#98a4a8_102.857deg,#7e899a_154.286deg,#66718c_205.714deg,#535d7f_257.143deg,#454d73_308.571deg,#3c4268_360deg)]
+                        dark:bg-[conic-gradient(from_225deg,#000004_0deg,#000006_18deg,#030309_36deg,#06060b_54deg,#09090e_72deg,#0c0c11_90deg,#0f0f14_108deg,#121317_126deg,#15161a_144deg,#19191d_162deg,#1c1c20_180deg,#1f2023_198deg,#222326_216deg,#252629_234deg,#28292c_252deg,#2b2c2f_270deg,#2e2f32_288deg,#313134_306deg,#333437_324deg,#353639_342deg,#38383c_360deg)]
+                        text-white dark:text-white">Infinity</span></h1>
                     </Link>
                 </div>
 
@@ -145,7 +149,7 @@ const MobileNavbar = () => {
                     <>
                         <SheetHeader className="flex flex-row mt-14 pr-6 items-center justify-between">
                             <Link to="/" onClick={() => setOpen(false)}>
-                                <SheetTitle><h1 className="font-extrabold text-xl text-slate-700">Learn <span className="bg-linear-to-r from-[#334d50] to-[#cbcaa5] bg-clip-text text-transparent dark:text-gray-700">Infinity</span></h1></SheetTitle>
+                                <SheetTitle><h1 className="font-extrabold text-xl text-slate-700 dark:text-slate-200">Learn <span className="bg-linear-to-r from-[#334d50] to-[#cbcaa5] dark: bg-clip-text text-transparent">Infinity</span></h1></SheetTitle>
                             </Link>
                             <DarkMode />
                         </SheetHeader>

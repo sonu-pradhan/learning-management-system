@@ -49,6 +49,10 @@ const CourseProgress = () => {
 
     const handleSelectLecture = (lecture) => {
         setCurrentLecture(lecture);
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
     };
 
     const handleLectureProgress = async (lectureId) => {

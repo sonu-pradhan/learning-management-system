@@ -17,6 +17,7 @@ import CourseProgress from "./pages/student/CourseProgress"
 import SearchPage from "./pages/SearchPage"
 import { AdminRoute, AuthenticatedUser, ProtectedRoute } from "./components/ProtectedRoute"
 import PurchaseCourseProtectedRoute from "./components/CoursePurchaseProtectedRoute"
+import { ThemeProvider } from "./components/ThemeProvider"
 
 
 const appRouter = createBrowserRouter([
@@ -46,7 +47,7 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "course/search",
-        element: <ProtectedRoute> <SearchPage /> </ProtectedRoute>
+        element: <SearchPage />
       },
       {
         path: "course-detail/:courseId",
@@ -55,10 +56,10 @@ const appRouter = createBrowserRouter([
       {
         path: "course-progress/:courseId",
         element: <ProtectedRoute>
-                    <PurchaseCourseProtectedRoute>
-                      <CourseProgress />
-                    </PurchaseCourseProtectedRoute>
-                  </ProtectedRoute>
+          <PurchaseCourseProtectedRoute>
+            <CourseProgress />
+          </PurchaseCourseProtectedRoute>
+        </ProtectedRoute>
       },
 
       {
@@ -98,7 +99,9 @@ const appRouter = createBrowserRouter([
 function App() {
   return (
     <main>
-      <RouterProvider router={appRouter} />
+      <ThemeProvider>
+        <RouterProvider router={appRouter} />
+      </ThemeProvider>
     </main>
   )
 }

@@ -27,11 +27,11 @@ const CourseCard = ({course}) => {
             </Avatar>
             <h1 className="font-medium text-sm">{course?.author?.name}</h1>
           </div>
-          <Badge className="bg-[#385356] px-2 py-1 text-xs rounded-full">
+          <Badge className="bg-[#385356] dark:text-white px-2 py-1 text-xs rounded-full">
             {course?.courseLevel}
           </Badge>
         </div>
-        <div className=" text-zinc-800 font-bold">
+        <div className=" text-zinc-800 dark:text-slate-300 font-bold">
             <span>₹{course?.coursePrice}</span>
         </div>
       </CardContent>

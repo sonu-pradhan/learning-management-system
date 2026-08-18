@@ -55,7 +55,7 @@ const BuyCourseButton = ({ courseId }) => {
   };
 
   return (
-    <Button disabled={isLoading} className="w-full h-10 bg-[#2f494c] cursor-pointer" onClick={purchaseCourseHandler}>
+    <Button disabled={isLoading} className="w-full h-10 bg-[#2f494c] dark:bg-[#0e0f12] dark:text-slate-200 cursor-pointer" onClick={purchaseCourseHandler}>
       {isLoading ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />

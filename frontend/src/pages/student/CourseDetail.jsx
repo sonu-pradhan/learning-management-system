@@ -27,7 +27,7 @@ const CourseDetail = () => {
 
     return (
         <div className="mt-18 space-y-5">
-            <div className="bg-[#2f494c] text-white">
+            <div className="bg-[#2f494c] dark:bg-[linear-gradient(180deg,#000_0%,#000_5%,#000_10%,#000_15%,#000_20%,#000_25%,#000001_30%,#000003_35%,#020306_40%,#040508_45%,#06070a_50%,#08090c_55%,#0a0b0e_60%,#0c0d10_65%,#0e0f12_70%,#0f1014_75%,#111216_80%,#121317_85%,#141419_90%,#15151a_95%,#16161b_100%)] text-white">
                 <div className="max-w-7xl mx-auto py-4 px-4 flex flex-col gap-2">
                     <h1 className="font-bold text-2xl md:text-3xl">{course?.courseTitle}</h1>
                     <p>{course?.subTitle}</p>
@@ -88,7 +88,7 @@ const CourseDetail = () => {
                             {purchased ? "" : (<h1 className="text-lg md:text-xl font-semibold">₹{course?.coursePrice}</h1>)}
                             <div className="flex justify-center p-1">
                                 {
-                                    purchased ? (<Button onClick={handleContinueCourse} className="w-full h-10 bg-[#2f494c] cursor-pointer">Countinue</Button>) : <BuyCourseButton courseId={courseId} />
+                                    purchased ? (<Button onClick={handleContinueCourse} className="w-full h-10 bg-[#2f494c] dark:bg-[#0e0f12] dark:text-slate-200 cursor-pointer">Countinue</Button>) : <BuyCourseButton courseId={courseId} />
                                 }
                             </div>
                         </CardContent>

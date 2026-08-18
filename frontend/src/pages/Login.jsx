@@ -71,6 +71,12 @@ const Login = () => {
     useEffect(() => {
         if (registerIsSuccess && registerData) {
             toast.success(registerData?.message || "Signup successful");
+            setLoginInput({
+                email: signupInput.email,
+                password: signupInput.password,
+            });
+
+            setSearchParams({ tab: "login" });
         }
 
         if (registerError) {
@@ -102,7 +108,7 @@ const Login = () => {
                 onValueChange={(value) => setSearchParams({ tab: value })}
                 className="w-100"
             >
-                <TabsList className="grid w-full grid-cols-2 bg-[#cbcaa5]">
+                <TabsList className="grid w-full grid-cols-2 bg-[#a5aebc] dark:bg-[#0e0f12] dark:text-slate-200">
                     <TabsTrigger value="signup">SignUp</TabsTrigger>
                     <TabsTrigger value="login">Login</TabsTrigger>
                 </TabsList>
@@ -163,7 +169,7 @@ const Login = () => {
                             </div>
                         </CardContent>
                         <CardFooter>
-                            <Button className="bg-[#385356] mx-auto" disabled={registerIsLoading} onClick={() => handleRegistration("signup")}>
+                            <Button className="bg-[#8090a1] cursor-pointer mx-auto dark:bg-[#0e0f12] dark:text-slate-200" disabled={registerIsLoading} onClick={() => handleRegistration("signup")}>
                                 {
                                     registerIsLoading ? (
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -201,7 +207,7 @@ const Login = () => {
                             </div>
                         </CardContent>
                         <CardFooter>
-                            <Button className="bg-[#385356] mx-auto" disabled={loginIsLoading} onClick={() => handleRegistration("login")}>
+                            <Button className="bg-[#8090a1] cursor-pointer mx-auto dark:bg-[#0e0f12] dark:text-slate-200" disabled={loginIsLoading} onClick={() => handleRegistration("login")}>
                                 {
                                     loginIsLoading ? (
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
